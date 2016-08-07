@@ -2,23 +2,11 @@
 """
 test of selenium
 """
-from platform import system
-from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+#
+from gdrivepublic import browser
 
-syst = system().lower()
-
-try:
-    drv = webdriver.Firefox()
-except Exception:
-    if 'windows' in syst:
-        chrome = 'c:\chromedriver\chromedriver.exe'
-    elif 'linux' in syst:
-        chrome = '/usr/lib/chromium-browser/chromedriver'
-    else:
-        chrome = None
-
-    drv = webdriver.Chrome(chrome)
+drv = browser()
 
 drv.get('http://www.python.org')
 assert 'Python' in drv.title

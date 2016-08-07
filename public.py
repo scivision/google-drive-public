@@ -1,51 +1,60 @@
 #!/usr/bin/env python
-from pydrive.files import FileNotDownloadableError
-from pydrive.auth import GoogleAuth
-from pydrive.drive import GoogleDrive
+"""
+allows downloading from Google Drive folders publicly shared without login
+modify PAT to suit the file types you're downloading
+Michael Hirsch
+"""
+from bs4 import BeautifulSoup
+from six.moves.urllib.request import urlopen
+import re
+import requests
 from gdrivepublic import Path
-# pip install -e git+https://github.com/googledrive/PyDrive.git#egg=PyDrive
 
-try:
-    drive = GoogleDrive(gauth)
-except NameError:
-    gauth = GoogleAuth()
-    gauth.LocalWebserverAuth()
-    drive = GoogleDrive(gauth)
+# this URL enables downloading files by actual filename, not some hash
+BASE = 'https://googledrive.com/host'
 
-def download_gdrive(datestr, odir, inst, root):
-    odir = Path(odir).expanduser()
-    i0 = drilldown(root)
-#%% get into date directory
-    i1 = drilldown(datestr,i0)
-#%% isr
-    i2 = drilldown(inst,i1)
-#%% list files here
-    flist = drilldown(None,i2)
+PAT = r'd\d{7}.dt\d.h5'  # for AMISR HDF5 files
+
+def gdriveurl(durl,odir,clobber,verbose):
+    html = urlopen(durl)
+    txt = BeautifulSoup(html,'lxml').text
+
+    flist = re.findall(PAT,txt)
+
+    if not flist:
+        raise ValueError('no matching files found in this folder')
 
     for f in flist:
-        ofn = odir / f['title']
-        if ofn.is_file():
-            continue
-        try:
-            f.GetContentFile(str(ofn))
-            print(ofn)
-        except FileNotDownloadableError:
-            print('ERROR: {}'.format(ofn))
+        download(f,durl,odir,clobber,verbose)
 
-def drilldown(child,parentid=None):
-    if parentid and child:
-        return drive.ListFile({'q': "'{}' in parents and title='{}' and trashed=false".format(parentid,child)}).GetList()[0]['id']
-    elif child and not parentid:
-        return drive.ListFile({'q': "title='{}' and trashed=false".format(child)}).GetList()[0]['id']
-    elif parentid and not child:
-        return drive.ListFile({'q': "'{}' in parents and trashed=false".format(parentid)}).GetList()
+def download(f,durl,odir,clobber,verbose):
+    fid = durl.split('/')[-1]
+
+    odir = Path(odir).expanduser()
+    ofn = odir / f
+    if ofn.is_file() and not clobber: #NOTE doesn't verify checksum or size--need PyDrive and login for that...
+        print('SKIPPING {}'.format(ofn))
+        return
+
+    print(ofn)
+#%% download
+    url = '/'.join((BASE,fid,f))
+
+    if verbose:
+        print(url)
+
+    r = requests.get(url,stream=True)
+    with ofn.open('wb') as o:
+        for c in r.iter_content(chunk_size=1024):
+            if c:
+                o.write(c)
 
 from argparse import ArgumentParser
 p = ArgumentParser()
-p.add_argument('date',help='yyyy-mm-dd  e.g. 2013-05-01')
-p.add_argument('-o','--odir',help='output directory',default='.')
-p.add_argument('-r','--root',help='topmost unique directory name',default='PokerFlat')
-p.add_argument('--inst',help='instrument',default='isr')
+p.add_argument('durl',help='folder URL (immediately containing files copied from web browser')
+p.add_argument('-o','--odir',help='output directory to download into',default='.')
+p.add_argument('-c','--clobber',help='overwrite existing files',action='store_true')
+p.add_argument('-v','--verbose',action='store_true')
 p = p.parse_args()
 
-download_gdrive(p.date,p.odir,p.inst,p.root)
+gdriveurl(p.durl,p.odir,p.clobber,p.verbose)
