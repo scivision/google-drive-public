@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from six.moves.urllib.request import urlopen
 import re
 import requests
-from pathlib import Path
+from gdrivepublic import Path
 # sudo apt-get install chromium-chromedriver
 
 

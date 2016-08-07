@@ -2,7 +2,7 @@
 from pydrive.files import FileNotDownloadableError
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
-from pathlib import Path
+from gdrivepublic import Path
 # pip install -e git+https://github.com/googledrive/PyDrive.git#egg=PyDrive
 
 try:
