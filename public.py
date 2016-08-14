@@ -13,7 +13,8 @@ from gdrivepublic import Path
 # this URL enables downloading files by actual filename, not some hash
 BASE = 'https://googledrive.com/host'
 
-PAT = r'd\d{7}.dt\d.h5'  # for AMISR HDF5 files
+#PAT = r'd\d{7}.dt\d.h5'  # for AMISR HDF5 files.
+PAT = re.compile('d\d{7}.dt\d.h5')
 
 def gdriveurl(durl,odir,clobber,verbose):
     html = urlopen(durl)
