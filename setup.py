@@ -11,7 +11,7 @@ setup(name='google-drive-public',
 	  description='downloading from Google Drive public directories',
 	  author='Michael Hirsch',
 	  url='https://github.com/scienceopen/google-drive-public',
-	  install_requires=[
+	  install_requires=['pathvalidate',
                      #'selenium',
                      'pathlib2'],
       packages=['gdrivepublic'],

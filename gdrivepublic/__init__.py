@@ -1,3 +1,5 @@
+import pathvalidate
+
 try:
     from pathlib import Path
     Path().expanduser()
@@ -7,6 +9,14 @@ except (ImportError, AttributeError):
 def isgdrive(path):
     path = Path(path).expanduser()
     return path.is_dir() and (path/'credentials.json').is_file()
+
+def safename(fn):
+    """
+    returns cross-platform safe name WITHOUT directory
+    """
+    if isinstance(fn,Path):
+        fn = fn.name
+    return pathvalidate.sanitize_filename(fn,'-')
 
 def browser():
     from platform import system
