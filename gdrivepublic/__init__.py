@@ -8,7 +8,12 @@ except (ImportError, AttributeError):
 #%%
 def isgdrive(path):
     path = Path(path).expanduser()
-    return path.is_dir() and (path/'credentials.json').is_file()
+
+    for p in path.parents:
+        print(p)
+        gd = p/'.gd'
+        if gd.is_dir() and (gd/'credentials.json').is_file():
+            return True
 
 def safename(fn):
     """
