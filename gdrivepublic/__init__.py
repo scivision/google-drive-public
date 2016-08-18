@@ -3,8 +3,11 @@ try:
     Path().expanduser()
 except (ImportError, AttributeError):
     from pathlib2 import Path
-
 #%%
+def isgdrive(path):
+    path = Path(path).expanduser()
+    return path.is_dir() and (path/'credentials.json').is_file()
+
 def browser():
     from platform import system
     from selenium import webdriver
