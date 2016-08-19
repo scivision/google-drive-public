@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+"""
+recursive search and deinit (disconnection) for drive-google directories
+"""
+
 from gdrivepublic import Path, isgdrive
 from subprocess import call
 
