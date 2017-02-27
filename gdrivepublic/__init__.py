@@ -1,10 +1,5 @@
 import pathvalidate
-
-try:
-    from pathlib import Path
-    Path().expanduser()
-except (ImportError, AttributeError):
-    from pathlib2 import Path
+from pathlib import Path
 #%%
 def isgdrive(path):
     path = Path(path).expanduser()

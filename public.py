@@ -5,7 +5,7 @@ modify PAT to suit the file types you're downloading
 Michael Hirsch
 """
 from bs4 import BeautifulSoup
-from six.moves.urllib.request import urlopen
+from urllib.request import urlopen
 import re
 import requests
 from gdrivepublic import Path
@@ -35,7 +35,7 @@ def download(f,durl,odir,clobber,verbose):
     odir = Path(odir).expanduser()
     ofn = odir / f
     if ofn.is_file() and not clobber: #NOTE doesn't verify checksum or size--need PyDrive and login for that...
-        print('SKIPPING {}'.format(ofn))
+        print(f'SKIPPING {ofn}')
         return
 
     print(ofn)

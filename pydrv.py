@@ -3,10 +3,12 @@
 Note this method uses login certificates even for public shared Google Drive.
 Use public.py instead
 """
+from pathlib import Path
+from sys import stderr
 from pydrive.files import FileNotDownloadableError
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
-from gdrivepublic import Path
+
 # pip install -e git+https://github.com/googledrive/PyDrive.git#egg=PyDrive
 
 try:
@@ -34,7 +36,7 @@ def download_gdrive(datestr, odir, inst, root):
             f.GetContentFile(str(ofn))
             print(ofn)
         except FileNotDownloadableError:
-            print('ERROR: {}'.format(ofn))
+            print(f'ERROR: {ofn}',file=stderr)
 
 def drilldown(child,parentid=None):
     if parentid and child:

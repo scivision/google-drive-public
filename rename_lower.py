@@ -2,14 +2,15 @@
 """
 renames files in local or Google Drive directory to lowercase and makes "safe" cross-platform filenames
 """
-from gdrivepublic import Path,safename
+from pathlib import Path
+from gdrivepublic import safename
 
 def rename_local(path,pat,verbose):
     path = Path(path).expanduser()
 
     flist = sorted(path.glob(pat))
 
-    print('renaming {} files in {}'.format(len(flist),path))
+    print(f'renaming {len(flist)} files in {path}')
 
     for old in flist:
         new = old.parent / safename(old).lower()
@@ -17,13 +18,13 @@ def rename_local(path,pat,verbose):
         try:
             if new.samefile(old):
                 if verbose:
-                    print('SKIPPING existing  {}'.format(new))
+                    print(f'SKIPPING existing  {new}')
                 continue
         except FileNotFoundError:
             pass #good, no conflict
 
         if p.verbose:
-            print('{}  ==>  {}'.format(old,new))
+            print(f'{old}  ==>  {new}')
         old.rename(new)
 
 

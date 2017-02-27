@@ -2,8 +2,8 @@
 """
 recursive search and deinit (disconnection) for drive-google directories
 """
-
-from gdrivepublic import Path, isgdrive
+from pathlib import Path
+from gdrivepublic import isgdrive
 from subprocess import call
 
 

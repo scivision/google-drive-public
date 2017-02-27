@@ -1,20 +1,16 @@
 #!/usr/bin/env python
 from setuptools import setup
-import subprocess
 
-try:
-    subprocess.call(['conda','install','--file','requirements.txt'])
-except Exception:
-    pass
+req = ['pathvalidate','lxml','requests','nose'
+                     #'selenium',
+],
 
 setup(name='google-drive-public',
-	  description='downloading from Google Drive public directories',
-	  author='Michael Hirsch',
-	  url='https://github.com/scienceopen/google-drive-public',
-	  install_requires=['pathvalidate',
-                     #'selenium',
-                     'pathlib2'],
       packages=['gdrivepublic'],
+	  description='downloading from Google Drive public directories',
+	  author='Michael Hirsch, Ph.D.',
+	  url='https://github.com/scienceopen/google-drive-public',
+	  install_requires=req,
 	  )
 
 

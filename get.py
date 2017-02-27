@@ -7,8 +7,9 @@ Softlinked paths under this directory are OK.
 
 https://github.com/odeke-em/drive
 """
+from pathlib import Path
 from subprocess import call
-from gdrivepublic import Path, isgdrive
+from gdrivepublic import isgdrive
 
 def drive_puller(remote,local,flist):
     # FIXME consider implementing 'drive list' techniques
@@ -20,9 +21,8 @@ def drive_puller(remote,local,flist):
     local = Path(local).expanduser()
     remote = str(remote)
 
-
     if not isgdrive(local):
-        raise ValueError('{} does not appear to be a initialized drive-google path.'.format(local))
+        raise ValueError(f'{local} does not appear to be a initialized drive-google path.')
 
     for f in flist:
         call['drive','pull','-no-clobber','-no-prompt', '/'.join((remote,f))]

@@ -7,17 +7,18 @@ Softlinked paths under this directory are OK.
 
 https://github.com/odeke-em/drive
 """
+from pathlib import Path
 from subprocess import call
-from gdrivepublic import Path, isgdrive
+from gdrivepublic import isgdrive
 
 def drive_pusher(remote,local,pat):
     local = Path(local).expanduser()
 
     if not isgdrive(local):
-        raise ValueError('{} does not appear to be a initialized drive-google path.'.format(local))
+        raise ValueError(f'{local} does not appear to be a initialized drive-google path.')
 
     flist = sorted(local.glob(pat))
-    print('uploading {} files to {} from {}'.format(len(flist),remote,local))
+    print(f'uploading {len(flist)} files to {remote} from {local}')
 #%% PUSH
     for f in flist:
         print(f)
