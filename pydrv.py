@@ -36,7 +36,7 @@ def download_gdrive(datestr, odir, inst, root):
             f.GetContentFile(str(ofn))
             print(ofn)
         except FileNotDownloadableError:
-            print(f'ERROR: {ofn}',file=stderr)
+            print('ERROR:',ofn,file=stderr)
 
 def drilldown(child,parentid=None):
     if parentid and child:

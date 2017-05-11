@@ -18,7 +18,7 @@ def rename_local(path,pat,verbose):
         try:
             if new.samefile(old):
                 if verbose:
-                    print(f'SKIPPING existing  {new}')
+                    print('SKIPPING existing',new)
                 continue
         except FileNotFoundError:
             pass #good, no conflict

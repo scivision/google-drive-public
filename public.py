@@ -35,7 +35,7 @@ def download(f,durl,odir,clobber,verbose):
     odir = Path(odir).expanduser()
     ofn = odir / f
     if ofn.is_file() and not clobber: #NOTE doesn't verify checksum or size--need PyDrive and login for that...
-        print(f'SKIPPING {ofn}')
+        print('SKIPPING',ofn)
         return
 
     print(ofn)
