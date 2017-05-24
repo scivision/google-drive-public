@@ -22,7 +22,7 @@ def drive_puller(remote,local,flist):
     remote = str(remote)
 
     if not isgdrive(local):
-        raise ValueError(f'{local} does not appear to be a initialized drive-google path.')
+        raise FileNotFoundError(f'{local} does not appear to be a initialized drive-google path.')
 
     for f in flist:
         call['drive','pull','-no-clobber','-no-prompt', '/'.join((remote,f))]

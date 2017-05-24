@@ -2,7 +2,7 @@
 """
 allows downloading from Google Drive folders publicly shared without login
 modify PAT to suit the file types you're downloading
-Michael Hirsch
+Michael Hirsch, Ph.D.
 """
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
@@ -24,7 +24,7 @@ def gdriveurl(durl,odir,clobber,pat,verbose):
     flist = re.findall(pat,txt)
 
     if not flist:
-        raise ValueError('no matching files found in this folder')
+        raise FileNotFoundError('no matching files found in this folder')
 
     for f in flist:
         download(f,durl,odir,clobber,verbose)
@@ -37,9 +37,8 @@ def download(f,durl,odir,clobber,verbose):
     if ofn.is_file() and not clobber: #NOTE doesn't verify checksum or size--need PyDrive and login for that...
         print('SKIPPING',ofn)
         return
-
-    print(ofn)
 #%% download
+    print(ofn)
     url = '/'.join((BASE,fid,f))
 
     if verbose:
@@ -51,13 +50,14 @@ def download(f,durl,odir,clobber,verbose):
             if c:
                 o.write(c)
 
-from argparse import ArgumentParser
-p = ArgumentParser()
-p.add_argument('durl',help='folder URL (immediately containing files copied from web browser')
-p.add_argument('-o','--odir',help='output directory to download into',default='.')
-p.add_argument('-p','--pat',help='regex for files to download',default='d\d{7}.dt\d.h5')
-p.add_argument('-c','--clobber',help='overwrite existing files',action='store_true')
-p.add_argument('-v','--verbose',action='store_true')
-p = p.parse_args()
+if __name__ == '__main__':
+    from argparse import ArgumentParser
+    p = ArgumentParser()
+    p.add_argument('durl',help='folder URL (immediately containing files copied from web browser')
+    p.add_argument('-o','--odir',help='output directory to download into',default='.')
+    p.add_argument('-p','--pat',help='regex for files to download',default='d\d{7}.dt\d.h5')
+    p.add_argument('-c','--clobber',help='overwrite existing files',action='store_true')
+    p.add_argument('-v','--verbose',action='store_true')
+    p = p.parse_args()
 
-gdriveurl(p.durl,p.odir,p.clobber,p.pat,p.verbose)
+    gdriveurl(p.durl, p.odir, p.clobber, p.pat, p.verbose)

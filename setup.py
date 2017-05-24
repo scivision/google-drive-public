@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-req = ['nose','requests','lxml',]
+req = ['nose','requests','lxml','beautifulsoup4']
 pipreq = ['pathvalidate',
                      #'selenium',
 ],

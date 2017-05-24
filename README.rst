@@ -22,12 +22,16 @@ Copy the URL of the publicly-shared Google Drive folder from which you want to d
 -v   verbose
 
 
-=============    ===========================
+===============    ===========================
 file             description
-=============    ===========================
+===============    ===========================
 public.py        Download publicly-shared Google Drive files without login
+put.py           use drive-google to upload to Google Drive
+get.py           use drive-google to download from Google Drive
+rename_lower.py     use drive-google to rename all files to lower case on Google Drive
+deinit.py        use drive-google to recursively deinit (disconnect) from Google Drive
 pydrv.py         use `PyDrive <https://github.com/googledrive/PyDrive>`_ (use public.py instead)
-=============    ===========================
+===============    ===========================
 
 
 Reference
