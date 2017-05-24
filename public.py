@@ -4,51 +4,9 @@ allows downloading from Google Drive folders publicly shared without login
 modify PAT to suit the file types you're downloading
 Michael Hirsch, Ph.D.
 """
-from bs4 import BeautifulSoup
-from urllib.request import urlopen
-import re
-import requests
-from gdrivepublic import Path
-
-# this URL enables downloading files by actual filename, not some hash
-BASE = 'https://googledrive.com/host'
-
+from gdrivepublic import gdriveurl
 #PAT = 'd\d{7}.dt\d.h5'  # for AMISR HDF5 files.
 
-def gdriveurl(durl,odir,clobber,pat,verbose):
-    pat = re.compile(pat)
-
-    html = urlopen(durl)
-    txt = BeautifulSoup(html,'lxml').text
-
-    flist = re.findall(pat,txt)
-
-    if not flist:
-        raise FileNotFoundError('no matching files found in this folder')
-
-    for f in flist:
-        download(f,durl,odir,clobber,verbose)
-
-def download(f,durl,odir,clobber,verbose):
-    fid = durl.split('/')[-1]
-
-    odir = Path(odir).expanduser()
-    ofn = odir / f
-    if ofn.is_file() and not clobber: #NOTE doesn't verify checksum or size--need PyDrive and login for that...
-        print('SKIPPING',ofn)
-        return
-#%% download
-    print(ofn)
-    url = '/'.join((BASE,fid,f))
-
-    if verbose:
-        print(url)
-
-    r = requests.get(url,stream=True)
-    with ofn.open('wb') as o:
-        for c in r.iter_content(chunk_size=1024):
-            if c:
-                o.write(c)
 
 if __name__ == '__main__':
     from argparse import ArgumentParser
