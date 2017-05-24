@@ -7,9 +7,13 @@ from urllib.request import urlopen
 import re
 import requests
 # this URL enables downloading files by actual filename, not some hash
-BASE = 'https://googledrive.com/host'
+# BASE = 'https://googledrive.com/host' this URL was permanently disabled late 2016
+BASE = 'https://drive.google.com/uc?export=download&id='
 #%% public
 def gdriveurl(durl,odir,clobber,pat,verbose):
+    parts = urlsplit(durl)
+    usertok = parts.path.split('/')[-1].split('_')[0]  # NOTE: arbitrary, may break at any time!
+
     pat = re.compile(pat)
 
     html = urlopen(durl)
@@ -19,12 +23,17 @@ def gdriveurl(durl,odir,clobber,pat,verbose):
 
     flist = re.findall(pat,txt)
 
+
+
     if not flist:
         raise FileNotFoundError('no matching files found in this folder')
 
     print(f'found {len(flist)} files under {durl}')
 
     for f in flist:
+        i = txt.index(f)
+        t = txt[i-100:i]  # arbitrary slice where direct FILE_ID lies
+
         download_public(f,durl,odir,clobber,verbose)
 
 def download_public(f,durl,odir,clobber,verbose):
