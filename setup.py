@@ -20,6 +20,7 @@ setup(name='google-drive-public',
 	  description='downloading from Google Drive public directories',
 	  author='Michael Hirsch, Ph.D.',
 	  url='https://github.com/scivision/google-drive-public',
+	  install_requires=req+pipreq,
 	  )
 
 
