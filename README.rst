@@ -23,7 +23,7 @@ Copy the URL of the publicly-shared Google Drive folder from which you want to d
 
 
 ===============    ===========================
-file             description
+file               description
 ===============    ===========================
 public.py        Download publicly-shared Google Drive files without login
 put.py           use drive-google to upload to Google Drive
