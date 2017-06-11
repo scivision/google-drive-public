@@ -2,7 +2,7 @@
 req = ['nose','requests','lxml','beautifulsoup4']
 pipreq = ['pathvalidate',
                      #'selenium',
-],
+]
 
 import pip
 try:

@@ -10,7 +10,7 @@ def rename_local(path,pat,verbose):
 
     flist = sorted(path.glob(pat))
 
-    print(f'renaming {len(flist)} files in {path}')
+    print('renaming',len(flist),'files in',path)
 
     for old in flist:
         new = old.parent / safename(old).lower()
@@ -24,7 +24,7 @@ def rename_local(path,pat,verbose):
             pass #good, no conflict
 
         if p.verbose:
-            print(f'{old}  ==>  {new}')
+            print(old,' ==>  ',new)
         old.rename(new)
 
 
@@ -32,7 +32,7 @@ if __name__ == '__main__':
     from argparse import ArgumentParser
     p = ArgumentParser()
     p.add_argument('path',help='local path to rename to lowercase and cross-platform safe')
-    p.add_argument('-p','--pat',help='glob pattern of files',default='*')
+    p.add_argument('-p','--pat',help='glob pattern of files (default *)',default='*')
     p.add_argument('-v','--verbose',action='store_true')
     p = p.parse_args()
 
