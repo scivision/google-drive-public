@@ -9,7 +9,7 @@ Install
 =======
 ::
 
-    python setup.py develop
+    pip install -e .
 
 Usage
 =====
@@ -57,6 +57,6 @@ Used by Selenium to invoke a Chrome browser.
 
 Linux::
 
- sudo apt-get install chromium-chromedriver
+    sudo apt-get install chromium-chromedriver
 
-Windows: http://chromedriver.storage.googleapis.com/index.html
+`Windows <http://chromedriver.storage.googleapis.com/index.html>`_
