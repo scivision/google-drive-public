@@ -1,17 +1,13 @@
 ===================
-google-drive-public
+DEPRECATED / NO LONGER WORKS
 ===================
 
-Download without login from public Google Drive folders in Pure Python (works on Windows/Linux/Mac)
+Deprecation note: Google kept changing their URL system. Finally I decided to share science data the right way with Zenodo. For collaborations I use Google Team Drive and rclone.
+
+----
 
 
-Install
-=======
-::
-
-    pip install -e .
-
-Usage
+Usage (no longer works)
 =====
 Copy the URL of the publicly-shared Google Drive folder from which you want to download files::
 
@@ -40,7 +36,7 @@ Normal users don't care about these notes below.
 
 PyDrive notes
 -------------
-Generally I like golang-based `drive-google <https://github.com/odeke-em/drive>`_ instead of PyDrive.
+I used golang-based `drive-google <https://github.com/odeke-em/drive>`_ instead of PyDrive.
 Even though the files may be shared publicly, with PyDrive you still need an API key ``client_secrets.json``
 This may be acquired via `Google API console <https://console.developers.google.com/apis/library>`_
 API Manager > Credentials > Create Project (if not already created) -- any name is fine >
